@@ -23,7 +23,9 @@ MARKER = [PAD, STD, END, UNK]
 
 # Req 1-1-1. 데이터를 읽고 트레이닝 셋과 테스트 셋으로 분리
 def load_data():
-
+    data = pd.read_csv('data_in/ChatBotData.csv')
+    train_q, test_q = train_test_split(data["Q"])
+    train_a, test_a = train_test_split(data["A"])
     return train_q, train_a, test_q, test_a
 
 # Req 1-1-2. 텍스트 데이터에 정규화를 사용하여 ([~.,!?\"':;)(]) 제거
