@@ -30,8 +30,8 @@ def load_data():
 
 # Req 1-1-2. 텍스트 데이터에 정규화를 사용하여 ([~.,!?\"':;)(]) 제거
 def prepro_noise_canceling(data):
-    
-    return None
+    text = re.sub('[-=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘|\(\)\[\]\<\>`\'…》]','', data)
+    return text
 
 # Req 1-1-3. 텍스트 데이터에 토크나이징
 def tokenizing_data(data):
