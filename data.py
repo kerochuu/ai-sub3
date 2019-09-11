@@ -35,8 +35,8 @@ def prepro_noise_canceling(data):
 
 # Req 1-1-3. 텍스트 데이터에 토크나이징
 def tokenizing_data(data):
-
-    return None
+    text = prepro_noise_canceling(data)
+    return Kkma().morphs(text)
 
 # Req 1-2-1. 토큰화된 트레이닝 데이터를 인코더에 활용할 수 있도록 전 처리
 def enc_processing(value, dictionary):
