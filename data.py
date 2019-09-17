@@ -56,11 +56,11 @@ def enc_processing(value, dictionary):
         # for word in seq.split():
         for word in tokenizing_data(seq):
             if dictionary.get(word) is not None:
-                seq_index.append(dictionary.get(word))
                 # seq_index에 dictionary 안의 인덱스를 extend 한다
+                seq_index.append(dictionary.get(word))
             else:
-                seq_index.append(MARKER[3])
-                # dictionary에 존재 하지 않는 다면 UNK 값을 extend 한다 
+                # dictionary에 존재 하지 않는 다면 UNK 값을 extend 한다
+                seq_index.append(MARKER[UNK_INDEX])
                 
         # 문장 제한 길이보다 길어질 경우 뒤에 토큰을 제거
         if len(seq_index) > DEFINES.max_sequence_length:
@@ -70,12 +70,12 @@ def enc_processing(value, dictionary):
         seq_len.append(len(seq_index))
         
         # DEFINES.max_sequence_length 길이보다 작은 경우 PAD 값을 추가 (padding)
-        seq_index += [MARKER[0] for i in range(DEFINES.max_sequence_length - len(seq_index))]
+        seq_index += [MARKER[PAD_INDEX] for i in range(DEFINES.max_sequence_length - len(seq_index))]
         
         # 인덱스화 되어 있는 값은 seq_input_index에 추가
         seq_input_index.append(seq_index)
         
-    return seq_input_index, seq_len
+    return seq_input_index
 
 # Req 1-2-2. 디코더에 필요한 데이터 전 처리 
 def dec_input_processing(value, dictionary):
