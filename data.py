@@ -125,28 +125,30 @@ def dec_target_processing(value, dictionary):
     # 문장의 길이를 저장할 배열 초기화
     seq_len = []
     # 노이즈 캔슬
-    value = prepro_noise_canceling(value)
+    # value = prepro_noise_canceling(value)
     
     for seq in value:
         
         # 하나의 seq에 index를 저장할 배열 초기화
         seq_index =[]
         
-        seq_index = [dictionary[word] for word in seq.split()]
+        # seq_index = [dictionary[word] for word in seq.split()]
+        seq_index = [dictionary[word] for word in tokenizing_data(seq)]
         # 문장 제한 길이보다 길어질 경우 뒤에 토큰을 제거
         # END 토큰을 추가 (DEFINES.max_sequence_length 길이를 맞춰서 추가)
-        sequence_index = None
+        # sequence_index = None
+        seq_index = seq_index[:DEFINES.max_sequence_length - 1] + [MARKER[END_INDEX]]
             
         # seq의 길이를 저장
-        seq_len.append(None)
+        seq_len.append(len(seq_index))
         
         # DEFINES.max_sequence_length 길이보다 작은 경우 PAD 값을 추가 (padding)
-        seq_index += None
+        seq_index += [MARKER[PAD_INDEX] for i in range(DEFINES.max_sequence_length - len(seq_index))]
         
         # 인덱스화 되어 있는 값은 seq_input_index에 추가
-        seq_input_index.append(None)
+        seq_input_index.append(seq_index)
    
-    return None
+    return seq_input_index
 
 # input과 output dictionary를 만드는 함수
 def in_out_dict(input, output, target):
