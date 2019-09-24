@@ -265,7 +265,7 @@ def make_voc(voc_list):
 def pred_next_string(value, dictionary):
     answer = ""
     for idx in value :
-        answer += dictionary[idx]
+        answer += dictionary[idx] + " "
     return answer, True
 
     
