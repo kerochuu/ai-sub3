@@ -263,9 +263,11 @@ def make_voc(voc_list):
 
 # Req 1-3-3. 예측용 단어 인덱스를 문장으로 변환
 def pred_next_string(value, dictionary):
-    
-    return None
-    
+    answer = ""
+    for idx in value :
+        answer += dictionary[idx]
+    return answer, True
+
     
 def main(self):
     char2idx, idx2char, voc_length = load_voc()
