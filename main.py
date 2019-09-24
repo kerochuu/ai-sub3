@@ -18,9 +18,10 @@ def bleu_compute(candidate, references):
     return sentence_bleu(list(map(lambda ref: ref.split(), references)),candidate.split())
 
 # Req. 1-5-2. rouge score 계산 함수
-def rouge_compute():
-    
-    return None
+def rouge_compute( hypothesis, reference ):
+    rouge = Rouge()
+    scores = rouge.get_scores(hypothesis, reference)
+    return scores
 
 # Req. 1-5-3. main 함수 구성
 def main(self):
