@@ -17,5 +17,21 @@ tf.app.flags.DEFINE_boolean('tokenize_as_morph', True, 'set morph tokenize') # �
 tf.app.flags.DEFINE_boolean('embedding', True, 'Use Embedding flag') # 임베딩 유무 설정
 tf.app.flags.DEFINE_boolean('multilayer', True, 'Use Multi RNN Cell') # 멀티 RNN 유무
 
+# Default Setting
+
+# batch_size(배치 크기) = 64
+# train_steps(학습 에포크) = 20000
+# dropout_width(드랍아웃 크기) = 0.5
+# layer_size(멀티 레이어 크기, multi RNN) = 3
+# hidden_size(가중치 크기) = 128
+# learning_rate(학습률) = 1e-3
+# shiffle_seek(셔플 시드값) = 1000
+# max_sequence_length(시퀀스 길이) = 25
+# embedding_size(임베딩 크기) = 128
+# tokenize_as_morph(형태소에 따른 토크나이징 사용 유무) = True
+# embedding(임베딩 사용 유무) = True
+# multilayer(멀티 RNN 사용 유무) = True
+# data_path(데이터 위치), vocabulary_path(사전 위치), check_point_path(체크 포인트 위치)는 수정불가
+
 # Define FLAGS
 DEFINES = tf.app.flags.FLAGS
