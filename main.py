@@ -33,18 +33,18 @@ def main(self):
     train_q, train_a, test_q, test_a = data.load_data()
 
     # 훈련셋 인코딩 만드는 부분
-    train_input_enc = data.enc_processing(train_q)
+    train_input_enc = data.enc_processing(train_q,char2idx)
     # 훈련셋 디코딩 입력 부분
-    train_input_dec = data.dec_input_processing(train_q)
+    train_input_dec = data.dec_input_processing(train_q,char2idx)
     # 훈련셋 디코딩 출력 부분
-    train_target_dec = data.dec_target_processing(train_a)
+    train_target_dec = data.dec_target_processing(train_a,char2idx)
 
     # 평가셋 인코딩 만드는 부분
-    eval_input_enc = data.enc_processing(test_q)
+    eval_input_enc = data.enc_processing(test_q,char2idx)
     # 평가셋 인코딩 만드는 부분
-    eval_input_dec = data.dec_input_processing(test_q)
+    eval_input_dec = data.dec_input_processing(test_q,char2idx)
     # 평가셋 인코딩 만드는 부분
-    eval_target_dec = data.dec_target_processing(test_a)
+    eval_target_dec = data.dec_target_processing(test_a,char2idx)
 
     # 현재 경로'./'에 현재 경로 하부에
     # 체크 포인트를 저장한 디렉토리를 설정한다.
@@ -62,15 +62,15 @@ def main(self):
         model_dir=DEFINES.check_point_path,  # 체크포인트 위치 등록한다.
         params={  # 모델 쪽으로 파라메터 전달한다.
             'embedding_size': DEFINES.embedding_size,
-            'model_hidden_size': DEFINES.model_hidden_size,  # 가중치 크기 설정한다.
-            'ffn_hidden_size': DEFINES.ffn_hidden_size,
-            'attention_head_size': DEFINES.attention_head_size,
+            # 'model_hidden_size': DEFINES.model_hidden_size,  # 가중치 크기 설정한다.
+            'hidden_size': DEFINES.hidden_size,
+            # 'attention_head_size': DEFINES.attention_head_size,
             'learning_rate': DEFINES.learning_rate,  # 학습율 설정한다.
             'vocabulary_length': vocabulary_length,  # 딕셔너리 크기를 설정한다.
             # 'embedding_size': DEFINES.embedding_size,  # 임베딩 크기를 설정한다.
             'layer_size': DEFINES.layer_size,
             'max_sequence_length': DEFINES.max_sequence_length,
-            'xavier_initializer': DEFINES.xavier_initializer
+            'tokenize_as_morph': DEFINES.tokenize_as_morph
         })
 
     # 학습 실행
@@ -105,7 +105,7 @@ def main(self):
 
 
 if __name__ == '__main__':
-    tf.logging.set_verbosity(tf.logging.INFO)
-    tf.app.run(main)
+    tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.INFO)
+    tf.compat.v1.app.run(main)
 
-tf.logging.set_verbosity
+tf.compat.v1.logging.set_verbosity
