@@ -14,14 +14,12 @@ from configs import DEFINES
 DATA_OUT_PATH = './data_out/'
 
 # Req. 1-5-1. bleu score 계산 함수
-def bleu_compute(candidate, references):
-    return sentence_bleu(candidate, references)
+def bleu_compute(answer, preAnswer):
+    return sentence_bleu(question, preanswer, smoothing_function=SmoothingFunction().method0)
 
 # Req. 1-5-2. rouge score 계산 함수
-def rouge_compute( hypothesis, reference ):
-    rouge = Rouge()
-    scores = rouge.get_scores(hypothesis, reference)
-    return scores
+def rouge_compute(answer,preAnswer):
+    return Rouge.get_scores(answer, preAnswer)
 
 # Req. 1-5-3. main 함수 구성
 def main(self):
@@ -35,14 +33,14 @@ def main(self):
     # 훈련셋 인코딩 만드는 부분
     train_input_enc = data.enc_processing(train_q,char2idx)
     # 훈련셋 디코딩 입력 부분
-    train_input_dec = data.dec_input_processing(train_q,char2idx)
+    train_input_dec = data.dec_input_processing(train_a,char2idx)
     # 훈련셋 디코딩 출력 부분
     train_target_dec = data.dec_target_processing(train_a,char2idx)
 
     # 평가셋 인코딩 만드는 부분
     eval_input_enc = data.enc_processing(test_q,char2idx)
     # 평가셋 인코딩 만드는 부분
-    eval_input_dec = data.dec_input_processing(test_q,char2idx)
+    eval_input_dec = data.dec_input_processing(test_a,char2idx)
     # 평가셋 인코딩 만드는 부분
     eval_target_dec = data.dec_target_processing(test_a,char2idx)
 
@@ -61,13 +59,13 @@ def main(self):
         model_fn=ml.model,  # 모델 등록한다.
         model_dir=DEFINES.check_point_path,  # 체크포인트 위치 등록한다.
         params={  # 모델 쪽으로 파라메터 전달한다.
-            'embedding_size': DEFINES.embedding_size,
+            'embedding': DEFINES.embedding,
             # 'model_hidden_size': DEFINES.model_hidden_size,  # 가중치 크기 설정한다.
             'hidden_size': DEFINES.hidden_size,
             # 'attention_head_size': DEFINES.attention_head_size,
             'learning_rate': DEFINES.learning_rate,  # 학습율 설정한다.
             'vocabulary_length': vocabulary_length,  # 딕셔너리 크기를 설정한다.
-            # 'embedding_size': DEFINES.embedding_size,  # 임베딩 크기를 설정한다.
+            'embedding_size': DEFINES.embedding_size,  # 임베딩 크기를 설정한다.
             'layer_size': DEFINES.layer_size,
             'max_sequence_length': DEFINES.max_sequence_length,
             'tokenize_as_morph': DEFINES.tokenize_as_morph
