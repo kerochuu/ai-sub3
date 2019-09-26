@@ -23,10 +23,15 @@ MARKER = [PAD, STD, END, UNK]
 
 # Req 1-1-1. 데이터를 읽고 트레이닝 셋과 테스트 셋으로 분리
 def load_data():
-    data = pd.read_csv('data_in/ChatBotData.csv')
-    train_q, test_q = train_test_split(data["Q"])
-    train_a, test_a = train_test_split(data["A"])
-    return train_q, train_a, test_q, test_a
+    # 판다스를 통해서 데이터를 불러온다.
+    data_df = pd.read_csv(DEFINES.data_path)
+    # 질문과 답변 열을 가져와 question과 answer에 넣는다.
+    question, answer = list(data_df['Q']), list(data_df['A'])
+    # skleran에서 지원하는 함수를 통해서 학습 셋과 
+    # 테스트 셋을 나눈다.
+     train_q, train_a, test_q, test_a = train_test_split(question, answer, test_size=0.33, random_state=42)
+    # 그 값을 리턴한다.
+    return  train_q, train_a, test_q, test_a
 
 # Req 1-1-2. 텍스트 데이터에 정규화를 사용하여 ([~.,!?\"':;)(]) 제거
 def prepro_noise_canceling(data):
@@ -75,7 +80,8 @@ def enc_processing(value, dictionary):
         # 인덱스화 되어 있는 값은 seq_input_index에 추가
         seq_input_index.append(seq_index)
         
-    return seq_input_index
+    return np.asarray(seq_input_index)
+    # return seq_input_index
 
 # Req 1-2-2. 디코더에 필요한 데이터 전 처리 
 def dec_input_processing(value, dictionary):
@@ -115,7 +121,7 @@ def dec_input_processing(value, dictionary):
         # 인덱스화 되어 있는 값은 seq_input_index에 추가
         seq_input_index.append(seq_index)
     
-    return seq_input_index
+    return np.asarray(seq_input_index)
 
 # Req 1-2-3. 디코더에 필요한 데이터 전 처리 
 def dec_target_processing(value, dictionary):
@@ -148,7 +154,7 @@ def dec_target_processing(value, dictionary):
         # 인덱스화 되어 있는 값은 seq_input_index에 추가
         seq_input_index.append(seq_index)
    
-    return seq_input_index
+    return np.asarray(seq_input_index)
 
 # input과 output dictionary를 만드는 함수
 def in_out_dict(input, output, target):
