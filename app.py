@@ -3,6 +3,9 @@ import model as ml
 import tensorflow as tf
 import sqlite3
 
+import json
+import os
+
 import pickle
 import numpy as np
 
@@ -15,8 +18,8 @@ from slackeventsapi import SlackEventAdapter
 
 
 # slack 연동 정보 입력 부분
-SLACK_TOKEN = None
-SLACK_SIGNING_SECRET = None
+SLACK_TOKEN = "xoxb-724021847745-731702713797-axJrESBdAVNfzCQlNhwjevg8"
+SLACK_SIGNING_SECRET = "ee88404028007abaffb6b978f09a4074"
 
 app = Flask(__name__)
 
@@ -39,6 +42,24 @@ def predict():
 def app_mentioned(event_data):
     channel = event_data["event"]["channel"]
     text = event_data["event"]["text"]
+    
+    print("SLACK String INPUT")
+    
+    text = text.replace('<@UMHLNLZPF>', '').strip()
+    
+    message_attachments = [
+            {
+                "text": ":cool-doge:*" + text + "*:cool-doge:",
+                "callback_id": "answer",
+                "color": "#EBB424",
+                "attachment_type": "default",
+            }
+        ]
+    
+    slack_web_client.chat_postMessage(
+        channel=channel,
+        attachments=json.dumps(message_attachments)
+    )
 
 
 @app.route("/", methods=["GET"])

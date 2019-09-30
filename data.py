@@ -29,7 +29,7 @@ def load_data():
     question, answer = list(data_df['Q']), list(data_df['A'])
     # skleran에서 지원하는 함수를 통해서 학습 셋과 
     # 테스트 셋을 나눈다.
-     train_q, train_a, test_q, test_a = train_test_split(question, answer, test_size=0.33, random_state=42)
+    train_q, train_a, test_q, test_a = train_test_split(question, answer, test_size=0.33, random_state=42)
     # 그 값을 리턴한다.
     return  train_q, train_a, test_q, test_a
 
