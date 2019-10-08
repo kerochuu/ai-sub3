@@ -11,15 +11,17 @@ from rouge import Rouge
 
 from configs import DEFINES
 
+
 DATA_OUT_PATH = './data_out/'
 
 # Req. 1-5-1. bleu score 계산 함수
 def bleu_compute(answer, preAnswer):
-    return sentence_bleu(question, preanswer, smoothing_function=SmoothingFunction().method0)
+    return sentence_bleu(answer, preAnswer, smoothing_function=SmoothingFunction().method0)
 
 # Req. 1-5-2. rouge score 계산 함수
 def rouge_compute(answer,preAnswer):
-    return Rouge.get_scores(answer, preAnswer)
+    rouge = Rouge()
+    return rouge.get_scores(answer, preAnswer)
 
 # Req. 1-5-3. main 함수 구성
 def main(self):
@@ -56,20 +58,16 @@ def main(self):
 
     # 에스티메이터 구성한다.
     classifier = tf.estimator.Estimator(
-        model_fn=ml.model,  # 모델 등록한다.
+        model_fn=ml.Model,  # 모델 등록한다.
         model_dir=DEFINES.check_point_path,  # 체크포인트 위치 등록한다.
         params={  # 모델 쪽으로 파라메터 전달한다.
-            'embedding': DEFINES.embedding,
-            # 'model_hidden_size': DEFINES.model_hidden_size,  # 가중치 크기 설정한다.
-            'hidden_size': DEFINES.hidden_size,
-            # 'attention_head_size': DEFINES.attention_head_size,
-            'learning_rate': DEFINES.learning_rate,  # 학습율 설정한다.
-            'vocabulary_length': vocabulary_length,  # 딕셔너리 크기를 설정한다.
-            'embedding_size': DEFINES.embedding_size,  # 임베딩 크기를 설정한다.
-            'layer_size': DEFINES.layer_size,
-            'max_sequence_length': DEFINES.max_sequence_length,
-            'tokenize_as_morph': DEFINES.tokenize_as_morph
+            'hidden_size': DEFINES.hidden_size, # 가중치 크기 설정한다.
+            'learning_rate': DEFINES.learning_rate, # 학습율 설정한다. 
+            'vocabulary_length': vocabulary_length, # 딕셔너리 크기를 설정한다.
+            'embedding_size': DEFINES.embedding_size, # 임베딩 크기를 설정한다.
+            'max_sequence_length': DEFINES.max_sequence_length
         })
+
 
     # 학습 실행
     classifier.train(input_fn=lambda: data.train_input_fn(
@@ -93,7 +91,7 @@ def main(self):
     predictions = classifier.predict(
         input_fn=lambda: data.eval_input_fn(predic_input_enc, predic_input_dec, predic_target_dec, 1))
 
-    answer, finished = data.pred_next_string(predictions, idx2char)
+    answer = data.pred_next_string(predictions, idx2char)
 
     # 예측한 값을 인지 할 수 있도록
     # 텍스트로 변경하는 부분이다.
