@@ -9,6 +9,7 @@ import os
 import pickle
 import numpy as np
 import db_util as db
+import predict as pd
 
 from flask import g
 from threading import Thread
@@ -32,7 +33,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 # Req. 2-2-1 대답 예측 함수 구현
 def predict(question):
-    answer = "안녕하세요"
+    answer = pd.predict(question)
     return answer
     
 # Req 2-2-2. app.db 를 연동하여 웹에서 주고받는 데이터를 DB로 저장
