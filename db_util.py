@@ -31,6 +31,12 @@ def update(id, answer):
     close(conn)
     return c.lastrowid
 
+def deleteByUserName(username):
+    conn = getConnection()
+    c = conn.cursor()
+    c.execute("DELETE FROM HISTORY_CONVERSATION_TB WHERE USER_NM = (?);", (username,))
+    close(conn)
+
 def findById(id):
     conn = getConnection()
     c = conn.cursor()
@@ -46,6 +52,7 @@ def findByUserName(user_name):
     result = c.fetchall()
     close(conn)
     return result
+
 
 def findByAnswer(question):
     conn = getConnection()
