@@ -32,7 +32,7 @@
 
 ## 아키텍쳐
 
-![](./images/Architecture.png)
+![](./image/Architecture.png)
 
 
 ## 목표
