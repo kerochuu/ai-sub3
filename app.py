@@ -17,7 +17,6 @@ from configs import DEFINES
 from flask import Flask, request, make_response, Response
 from slack import WebClient
 from slackeventsapi import SlackEventAdapter
-from slackclient import SlackClient
 
 
 # slack 연동 정보 입력 부분
