@@ -15,10 +15,11 @@ def predict(question):
 
     # 테스트용 데이터 만드는 부분이다.
     # 인코딩 부분 만든다.
-    input = ""
-    for i in question[1:]:
-        input += i
-        input += " "
+    # input = ""
+    # for i in question[1:]:
+    #     input += i
+    #     input += " "
+    input = question
     predic_input_enc = data.enc_processing([input], char2idx)
     # 학습 과정이 아니므로 디코딩 입력은
     # 존재하지 않는다.(구조를 맞추기 위해 넣는다.)
@@ -61,6 +62,8 @@ def predict(question):
             break
     # 예측한 값을 인지 할 수 있도록
     # 텍스트로 변경하는 부분이다.
+    print("Q:",question)
+    print("In:",input)
     print("answer: ", answer)
     return answer
 
