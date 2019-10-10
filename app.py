@@ -42,6 +42,10 @@ def predict(question):
 # 챗봇이 멘션을 받았을 경우
 @slack_events_adaptor.on("app_mention")
 def app_mentioned(event_data):
+    
+    if request.headers.get('X-slack-Retry-Num') != None:
+        return make_response("Ignore retries",200)
+
     user = event_data["event"]["user"]
     channel = event_data["event"]["channel"]
     question = event_data["event"]["text"]

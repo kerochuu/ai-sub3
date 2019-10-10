@@ -15,10 +15,7 @@ def predict(question):
 
     # 테스트용 데이터 만드는 부분이다.
     # 인코딩 부분 만든다.
-    input = ""
-    for i in question[1:]:
-        input += i
-        input += " "
+    input = question
     predic_input_enc = data.enc_processing([input], char2idx)
     # 학습 과정이 아니므로 디코딩 입력은
     # 존재하지 않는다.(구조를 맞추기 위해 넣는다.)
@@ -41,12 +38,10 @@ def predict(question):
 
 
     # 예측을 하는 부분이다.
-    # predictions = classifier.predict(input_fn=lambda: data.eval_input_fn(predic_input_enc, predic_output_dec, predic_target_dec, 1))
-
-    # answer = data.pred_next_string(predictions, idx2char)
+    
     answer = ""
     for i in range(DEFINES.max_sequence_length):
-        print(answer)
+        # print(answer)
 
         if i > 0:
             predic_output_dec = data.dec_input_processing([answer], char2idx)
@@ -61,7 +56,7 @@ def predict(question):
             break
     # 예측한 값을 인지 할 수 있도록
     # 텍스트로 변경하는 부분이다.
-    print("answer: ", answer)
+
     return answer
 
 if __name__ == '__main__':
